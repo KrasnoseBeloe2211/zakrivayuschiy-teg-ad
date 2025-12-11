@@ -1,8 +1,7 @@
+@charset "UTF-8";
 /* Здесь вы напишете основную часть стилей страницы.
 
 Будьте внимательны! Для корректной работы скриптов на этом сайте нужно, чтобы в HTML некоторые классы были названы особым образом:
-✦ theme-dark — класс тёмной темы
-✦ theme-light — класс светлой темы
 ✦ like-icon — для svg-иконки анимированного сердца
 ✦ card__like-button — для кнопки Like рядом с иконкой
 ✦ card__icon-button — для кнопки, оборачивающей иконку
@@ -10,447 +9,253 @@
 ✦ is-liked — для обозначения состояния лайкнутой иконки в виде сердца
 ✦ button__text — для обозначения текстового элемента внутри кнопки
 
-Кроме этого, не меняйте HTML переключателя тем. Его разметка также гарантирует работу своего скрипта.
-
 */
-
-@supports (-webkit-text-stroke: 1px #fff) or (text-stroke: 1px #fff) {
-  .card__image-label {
-    text-stroke: 1px var(--stroke-color);
-    -webkit-text-stroke: 1px var(--stroke-color);
-    text-shadow: none;
-  }
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border-color);
+  background: var(--background-color);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  overflow: hidden;
+}
+.button .floppy__icon {
+  color: var(--background-color);
+  mix-blend-mode: difference;
+}
+.button .button__text {
+  z-index: 100;
+  font-family: var(--ps2p-font, "sans-serif");
+  font-size: 14px;
+  line-height: 90%;
+  color: var(--background-color);
+  mix-blend-mode: difference;
+}
+.button::after {
+  content: "";
+  position: absolute;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--border-color);
+  transition: left 0.3s ease;
+}
+.button:hover::after {
+  left: 0;
+}
+.button:hover .floppy__icon {
+  z-index: 100;
+}
+.button:focus {
+  box-shadow: 2px 2px 0 var(--border-color);
 }
 
 .page {
   min-inline-size: 320px;
   min-block-size: 100dvb;
-
-  font-family: var(--main-font), sans-serif;
-  font-variation-settings: 'wght' 400;
-
-  background-image: repeating-linear-gradient(
-      to bottom,
-      var(--bg-color) 0px 2px,
-      transparent 2px 4px
-    ),
-    repeating-linear-gradient(
-      to right,
-      var(--bg-color) 0 2px,
-      transparent 2px 4px
-    ),
-    linear-gradient(
-      180deg,
-      var(--linear-gradient-first) 0%,
-      var(--linear-gradient-second) 100%
-    );
+  font-family: var(--inter-font, "sans-serif");
+  font-variation-settings: "wght" var(--card-text-width), "wdth" 100;
+  background: var(--main-background-color);
   background-size: cover;
   background-attachment: fixed;
+  background-blend-mode: hard-light;
 }
 
 .header {
-  color: var(--accent-color);
-  text-transform: uppercase;
-  font-family: var(--accent-font), sans-serif;
-  font-weight: 400;
-
+  font-family: var(--ps2p-font, "sans-serif");
+  margin: 100px auto;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  padding: clamp(7.5rem, 7.1479rem + 1.5023vw, 8.5rem) 0 12px;
-
+  flex-direction: column;
+  max-width: 700px;
+  height: 368px;
+  background: var(--background-color);
   border: 2px solid var(--border-color);
-  background-color: var(--bg-color);
+}
+.header h1 {
+  font-size: 65px;
+  font-weight: normal;
+}
+.header h2 {
+  font-size: 23px;
+  font-weight: normal;
+  margin-top: 20px;
+  text-transform: uppercase;
 }
 
-.content {
+.main {
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
   margin: 0 auto;
-  max-inline-size: 696px;
-  margin-block-start: 100px;
 }
 
-.theme-menu__item {
-  margin-block-end: 9px;
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
 }
-
-.header__title {
-  font-family: var(--accent-font), sans-serif;
-  font-size: clamp(3.0625rem, 2.7104rem + 1.5023vw, 4.0625rem);
-  text-decoration: none;
+.cards .card {
+  display: flex;
+  flex-direction: column;
+  background: var(--background-color);
 }
-
-.header__description {
-  font-family: var(--accent-font), sans-serif;
-  font-size: clamp(0.875rem, 0.6769rem + 0.8451vw, 1.4375rem);
-  margin-block-end: 4px;
-}
-
-.card {
-  background-color: var(--bg-color);
-  margin-block-end: 50px;
-  color: var(--accent-color);
-}
-
-.card__title {
-  font-family: var(--main-font), sans-serif;
+.cards .card .card__header {
+  padding: 5px 10px;
   border: 2px solid var(--border-color);
+}
+.cards .card .card__header .card__header-heading {
   font-size: 18px;
-  font-weight: var(--header-weight);
-  line-height: normal;
-  font-style: normal;
-  padding: 5px 22px 5px 8px;
-  font-variation-settings: 'wght' var(--header-weight);
+  font-variation-settings: "wght" var(--card-headers-width);
 }
-
-.card__image {
+.cards .card .card__img {
+  border-left: 2px solid var(--border-color);
+  border-right: 2px solid var(--border-color);
   position: relative;
-  border: 2px solid var(--border-color);
-  border-block-start: none;
-  aspect-ratio: 1 / 1;
 }
-
-.image {
-  display: block;
+.cards .card .card__img img {
   width: 100%;
-  height: 100%;
+  display: block;
+}
+.cards .card .card__img .card__img-text {
+  font-family: var(--ps2p-font, "sans-serif");
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  opacity: 50%;
+  font-size: 14px;
+  text-shadow: -1px 0 var(--stroke-color), 0 1px var(--stroke-color), 1px 0 var(--stroke-color), 0 -1px var(--stroke-color);
+}
+.cards .card .card__footer {
+  padding: 25px;
+  border: 2px solid var(--border-color);
+}
+.cards .card .card__footer .card__footer-text {
+  line-height: 21px;
+  font-size: 18px;
+}
+.cards .card .card__footer .card__footer-text:not(:last-child) {
+  margin-bottom: 27px;
+}
+.cards .card .card__footer .card__footer-buttons {
+  margin-top: 25px;
+  display: flex;
+  justify-content: end;
+  gap: 8px;
+}
+.cards .card .card__footer .card__footer-buttons .card__like-button {
+  width: 130px;
+  height: 38px;
+}
+.cards .card .card__footer .card__footer-buttons .card__like-button .button__text {
+  font-family: var(--ps2p-font, "sans-serif");
+  font-size: 14px;
+  line-height: 90%;
 }
 
-.image-grayscale {
-  filter: grayscale(75%);
+.button__save {
+  max-width: 335px;
+  width: 335px;
+  margin: 52px auto 100px;
+  min-height: 51px;
+  gap: 8px;
+}
+.button__save .floppy__icon {
+  width: 21px;
+  height: 21px;
 }
 
-.image-saturate {
+.save__modal {
+  position: fixed;
+  inset: 0;
+  max-width: 353px;
+  width: 353px;
+  padding: 30px;
+  font-family: var(--ps2p-font, "sans-serif");
+  font-size: 14px;
+  line-height: 90%;
+  border: 2px solid var(--border-color);
+}
+.save__modal::backdrop {
+  background: var(--background-modal-color);
+  opacity: 75%;
+}
+.save__modal .content__modal {
+  display: flex;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+.save__modal .content__modal .floppy__icon__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.save__modal .content__modal .floppy__icon__wrapper .floppy__icon {
+  width: 39px;
+  height: 39px;
+}
+.save__modal .content__modal .modal__text {
+  line-height: 150%;
+  text-transform: uppercase;
+}
+.save__modal .button__OK {
+  width: 100%;
+  height: 38px;
+}
+
+.image2 {
+  filter: grayscale(80%);
+}
+
+.image3 {
   filter: saturate(400%);
 }
 
-.image-huerotate {
-  filter: hue-rotate(30deg);
+.image4 {
+  filter: hue-rotate(25deg);
 }
 
-.image-invert {
-  filter: invert(90%);
+.image5 {
+  filter: invert(100%);
 }
 
-.image-sepia {
-  filter: sepia(90%);
+.image6 {
+  filter: sepia(80%);
 }
 
-.image-blur {
-  filter: blur(10px);
+.image7 {
+  filter: blur(20px);
 }
 
-.image-huerotate-opacity {
-  filter: hue-rotate(100deg) opacity(70%);
+.image8 {
+  filter: blur(3px) hue-rotate(70deg) sepia(50%);
 }
 
-
-.card__image-label {
-  position: absolute;
-  font-family: var(--accent-font), sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  top: 25px;
-  right: 25px;
-  color: var(--accent-color);
-  opacity: 0.5;
-  mix-blend-mode: hard-light;
-  -webkit-text-stroke: 1px var(--stroke-color);
-  text-shadow: 0 var(--stroke-color), 0 1px var(--stroke-color),
-    0 -1px var(--stroke-color), 1px 0 var(--stroke-color);
-}
-
-.card__content {
-  border: 2px solid var(--border-color);
-  padding: 25px;
-}
-
-.card__buttons {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.card__icon-button:focus,
-.card__icon-button:focus-visible {
-  outline: none;
-}
-
-.card__icon-button:focus-visible {
-  border-color: var(--accent-color);
-}
-
-.card__content-text {
-  font-family: var(--main-font), sans-serif;
-  color: var(--accent-color);
-  font-size: 18px;
-  line-height: 21px;
-  font-weight: var(--text-weight);
-  font-variation-settings: 'wght' var(--text-weight);
-}
-
-.card__content-text:nth-child(1) {
-  margin-block-end: 27px;
-}
-
-.card__content-text:nth-child(2) {
-  margin-block-end: 25px;
-}
-
-.card__like-button {
-  border: 2px solid var(--border-color);
-  padding: 9px 17px;
-  background-color: var(--bg-color);
-  justify-content: center;
-  align-items: center;
-  block-size: 38px;
-  inline-size: 130px;
-  position: relative;
-}
-
-.card__like-button:focus-visible,
-.card__like-button:focus,
-.button-remember:focus-visible,
-.button-remember:focus {
-  outline: none;
-}
-
-.card__like-button:hover::before {
-  width: 100%;
-}
-
-.card__like-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  background-color: var(--accent-color);
-  transition: width 0.3s ease;
-  inline-size: 100%;
-  block-size: 100%;
-  width: 0;
-}
-
-.card__like-button:hover {
-  cursor: pointer;
-}
-
-.button__text {
-  font-size: 14px;
-  font-family: var(--accent-font), sans-serif;
-  color: var(--mix-blend-color);
-  font-weight: 400;
-  font-style: normal;
-  mix-blend-mode: difference;
-  line-height: 12.6px;
-}
-
-.button__text-rembemer {
-  font-size: 14px;
-  font-family: var(--accent-font), sans-serif;
-  color: var(--mix-blend-color);
-  mix-blend-mode: difference;
-  font-weight: 400;
-  font-style: normal;
-  line-height: 12.6px;
-}
-
-.floppy {
-  fill: var(--mix-blend-color);
-  inline-size: 28px;
-  block-size: 28px;
-  stroke: var(--mix-blend-color);
-  mix-blend-mode: difference;
-}
-
-.button-remember {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 12.6px;
-  padding: 15px 20px;
-  border: 2px solid var(--border-color);
-  background-color: var(--bg-color);
-  cursor: pointer;
-  position: relative;
-}
-
-.button-remember:focus-visible,
-.card__like-button:focus-visible,
-.button-save:focus-visible {
-  box-shadow: 2px 2px 0 0px var(--border-color);
-  transition: box-shadow 0.3s ease;
-}
-
-.button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-block-end: 100px;
-  padding-inline: 30px;
-}
-
-.button-remember:hover::before {
-  width: 100%;
-}
-
-.button-remember::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  background-color: var(--accent-color);
-  transition: width 0.3s ease;
-  inline-size: 100%;
-  block-size: 100%;
-  width: 0;
-}
-
-.theme-menu__button {
-  font-family: var(--accent-font), sans-serif;
-  border: none;
-  line-height: normal;
-  font-style: normal;
-  font-size: 14px;
-  font-weight: 400;
-  text-transform: uppercase;
-  background-color: transparent;
-  cursor: pointer;
-  padding-inline-start: 27px;
-}
-
-.theme-menu__button:focus-visible,
-.theme-menu__button:focus,
-.button-save:focus,
-.button-save:focus-visible {
-  outline: none;
-}
-
-.dialog::backdrop {
-  background-color: rgba(0 0 0 / 0.8);
-}
-
-.dialog {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  border: 2px solid var(--border-color);
-  padding: 30px;
-  background-color: var(--bg-color);
-  color: var(--accent-color);
-  font-family: var(--accent-font), sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  max-inline-size: 357px;
-  font-weight: 400;
-  text-transform: uppercase;
-  line-height: 150%;
-}
-
-.dialog:not([open]) {
-  display: none;
-}
-
-.dialog__flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  inline-size: 100%;
-}
-
-.button-save {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 15px 20px;
-  border: 2px solid var(--border-color);
-  background-color: var(--bg-color);
-  cursor: pointer;
-  position: relative;
-  text-transform: uppercase;
-}
-
-.button-save-text {
-  font-family: var(--accent-font), sans-serif;
-  mix-blend-mode: difference;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 12.6px;
-  color: var(--mix-blend-color);
-}
-
-.card__icon-button {
-  border: 2px solid transparent;
-  background-color: var(--bg-color);
-  cursor: pointer;
-  display: flex;
-  transition: border-color 0.3s ease;
-  justify-content: center;
-  padding: 0;
-  align-items: center;
-}
-
-.button-save::before {
-  content: '';
-  top: 0;
-  left: 0;
-  display: block;
-  transition: width 0.3s ease-in-out;
-  block-size: 100%;
-  inline-size: 100%;
-  width: 0;
-  position: absolute;
-  background-color: var(--accent-color);
-}
-
-.button-save:hover::before {
-  width: 100%;
-}
-
-.floppy-dialog {
-  fill: var(--border-color);
-  block-size: 39px;
-  inline-size: 39px;
-  stroke: var(--border-color);
-}
-
-.dialog__flex-text {
-  font-family: var(--accent-font), sans-serif;
-  line-height: 1.5;
-  white-space: normal;
-  max-inline-size: 234px;
-}
-
-
-@media screen and (width <= 375px) {
-  .card__image-label {
-    top: 25px;
-    right: 11px;
+@supports (text-stroke: 1px var(--stroke-color)) or (-webkit-text-stroke: 1px var(--stroke-color)) {
+  .card__text {
+    text-stroke: 1px var(--stroke-color);
+    -webkit-text-stroke: 1px var(--stroke-color);
   }
 }
-
-@media screen and (width >= 500px) {
-  .floppy {
-    block-size: 21px;
-    inline-size: 21px;
+@media (max-width: 500px) {
+  .header h1 {
+    font-size: 49px;
   }
-}
-
-@media screen and (width > 375px) {
-  .button-remember {
-    flex-direction: row;
+  .header h2 {
+    font-size: 14px;
   }
-}
+  .button__save {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+  }
+  .button__save .floppy__icon {
+    width: 28px;
+    height: 28px;
+  }
+}/*# sourceMappingURL=style.css.map */
